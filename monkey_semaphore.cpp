@@ -47,7 +47,7 @@ int main(int argc, char* argv[])
 
     union semun sem_union;
     sem_union.val = 1;
-    semctl(sem_id, 0, SETVAL, sem_union);
+    semctl(sem_id, 0, SETVAL, sem_union);   // Инициализация значения семафора 1
 
     pthread_t * thread = new pthread_t;
     pthread_create(thread, nullptr, generating_babuins, (void*) &queue_ready);
@@ -99,6 +99,7 @@ int main(int argc, char* argv[])
     }
 
     pthread_cancel(*thread);    // Завершение потока
+    semctl(sem_id, 0, IPC_RMID);// Удаление семафора
 
     return 0;
 }
